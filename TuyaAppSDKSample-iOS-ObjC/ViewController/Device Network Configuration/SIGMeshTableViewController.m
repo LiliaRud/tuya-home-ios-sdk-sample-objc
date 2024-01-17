@@ -38,14 +38,13 @@
 
 - (IBAction)searchClicked:(id)sender {
     long long homeId = [Home getCurrentHome].homeId;
+
     ThingSmartHome *home = [ThingSmartHome homeWithHomeId:homeId];
-    [home getSIGMeshListWithSuccess:^(NSArray<ThingSmartBleMeshModel *> * _Nonnull list) {
-        self.manager = [ThingSmartBleMesh initSIGMeshManager:home.sigMeshModel ttl:8 nodeIds:nil];
-        self.manager.delegate = self;
-        [self.manager startSearch];
-    } failure:^(NSError *error) {
-        
-    }];
+    ThingSmartBleMeshModel *sigMeshModel = home.sigMeshModel;
+
+    self.manager = [ThingSmartBleMesh initSIGMeshManager:sigMeshModel ttl:8 nodeIds:nil];
+    self.manager.delegate = self;
+    [self.manager startSearch];
 }
 
 - (NSMutableArray *)dataSource{
